@@ -52,6 +52,7 @@ class GameState:
         self.size = map_size
         self.skull_win = skull_win
         self.tiles = tiles
+        self.our_idx = our_idx
         # go through players and check if q and r is the same as tiles q and r and set tiles entity to player
         for player in players:
             for tile in tiles:
