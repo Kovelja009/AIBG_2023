@@ -50,8 +50,8 @@ class GameState:
     def __init__(self, turn, map_size, skull_win: bool, tiles: List[Tile], players: List[Player]):
         self.turn = turn
         self.size = map_size
+        self.skull_win = skull_win
         self.tiles = tiles
-        self.skull_win = False
         # go through players and check if q and r is the same as tiles q and r and set tiles entity to player
         for player in players:
             for tile in tiles:
@@ -59,10 +59,14 @@ class GameState:
                     tile.entity = player
                     break
 
+        self.tiles = {(tile.q, tile.r): tile for tile in tiles}
+
 
 # # Creating GameState object from JSON data
 # game_state = GameState(
 #     json_data['gameState']['turn'],
 #     json_data['gameState']['map']['size'],
-#     [Tile(**tile) for tile in json_data['gameState']['map']['tiles']]
+#     json_data['gameState']['skullWin'],
+#     [Tile(**tile) for tile in json_data['gameState']['map']['tiles']],
+#     [Player(**player) for player in json_data['gameState']['scoreBoard']['players']
 # )
