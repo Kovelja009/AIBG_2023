@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Dict
 
 class TileType(Enum):
     EMPTY = 0
@@ -45,14 +45,19 @@ class Player:
         self.scoreLevel = scoreLevel
         self.sword = sword
 
-
 class GameState:
-    def __init__(self, turn, map_size, skull_win: bool, tiles: List[Tile], players: List[Player]):
+    turn: int
+    size: int
+    tiles: Dict[(int,int), Tile]
+    players: List[Player]
+    skull_win: bool
+    our_idx: int
+    def __init__(self, turn, map_size, skull_win: bool, tiles: List[Tile] , players: List[Player]):
         self.turn = turn
         self.size = map_size
         self.skull_win = skull_win
         self.tiles = tiles
-        self.our_idx = our_idx
+        self.our_idx = 0
         # go through players and check if q and r is the same as tiles q and r and set tiles entity to player
         for player in players:
             for tile in tiles:
