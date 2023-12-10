@@ -14,14 +14,14 @@ def __node_dist(node1: Tuple[int, int], node2: Tuple[int, int]) -> int:
     raise NotImplementedError
 
 
-def run_dijkstra(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile,int]:
+def run_dijkstra(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
     """
     Returns the next tile to move to on the shortest path from start_tile to end_tile
     """
     raise NotImplementedError
 
 
-def get_next_move(game_state : GameState, start_pos : Tuple[int, int], end_pos : Tuple[int, int]) -> Tile:
+def get_next_move(game_state : GameState, start_pos : Tuple[int, int], end_pos : Tuple[int, int]) -> Tuple[Tile, int]:
     raise NotImplementedError
 
 
