@@ -1,6 +1,7 @@
 from typing import Tuple
 from game_state import TileType, EntityType, GameState, Tile
 from exceptions import MoveResultsInConflictException
+from movement import move_to, distance
 
 
 def get_all_tiles_of_type(game_state: GameState, entity_type: EntityType):
@@ -21,8 +22,24 @@ def run_dijkstra(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tup
     raise NotImplementedError
 
 
-def get_next_move(game_state : GameState, start_pos : Tuple[int, int], end_pos : Tuple[int, int]) -> Tuple[Tile, int]:
+def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
     raise NotImplementedError
+
+
+def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, source_tile: Tile) -> Tile:
+    '''
+    Returns the closest tile of a given type to the source tile
+    '''
+    tiles = get_all_tiles_of_type(game_state, entity_type)
+    closest_tile = None
+    closest_dist = float('inf')
+    for tile in tiles:
+        dist = distance(tile.position, source_tile.position)
+        if dist < closest_dist:
+            closest_tile = tile
+            closest_dist = dist
+
+    return closest_tile
 
 
 def __check_move_is_safe(game_state: GameState, next_tile: Tile) -> bool:
@@ -31,7 +48,7 @@ def __check_move_is_safe(game_state: GameState, next_tile: Tile) -> bool:
     """
     enemy_players = [player for player in game_state.players if player.idx != game_state.our_idx]
     for player in enemy_players:
-        if __node_dist(player.position, next_tile.position) == 1:
+        if distance(player.position, next_tile.position) == 1:
             return False
     return True
 
