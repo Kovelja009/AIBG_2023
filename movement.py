@@ -5,15 +5,17 @@ from game_state import EntityType, TileType
 from actions.action import Action
 from actions.attack_action import AttackAction
 from actions.move_action import MoveAction
-
+from heapq import heappop, heappush
+from game_utils import stone_attacked_tiles
 
 class Graph:
-    def __init__(self, tiles, sword) -> None:
+    def __init__(self, game_state: GameState, sword) -> None:
         self.graph = {}
-        for tile in tiles:
+        self.game_state = game_state
+        for tile in game_state.tiles.values():
             weight = 1
 
-            if tiles.entity_type == EntityType.TREES:
+            if tile.entity_type == EntityType.TREES:
                 if sword == True:
                     weight = 2
                 else:
@@ -56,6 +58,39 @@ class Graph:
             (x, y) = path[(x, y)]
 
         return (x, y), d
+    
+    def dijkstra(self, src, dest):
+        dist: dict[tuple[int, int], int] = {} 
+        prev: dict[tuple[int, int], tuple[int, int]] = {}
+        for vertex in self.graph:
+            dist[vertex] = float('inf')
+        dist[src] = 0
+
+        heap = []
+        heappush(heap, (dist[src], src))
+        while heap:
+            d, u = heappop(heap)
+            if d != dist[u]:
+                continue
+            for v, w in self.graph[u]:
+                if v in stone_attacked_tiles(self.game_state, (self.game_state.stone_state + d) % 7):
+                    alt = dist[u] + w
+                    if alt < dist[v]:
+                        dist[v] = alt
+                        prev[v] = u
+                    heappush(heap, (dist[v], v))
+        
+        path : list[tuple[int, int]]= []
+        u = dest
+        while u in prev:
+            path.append(u)
+            u = prev[u]
+        path.reverse()
+        if __check_move_is_safe(self.game_state, MoveAction(path[0])):
+            return self.game_state.tiles[path[0]], dist[dest]
+        else:
+            raise MoveResultsInConflictException
+        
 
 
 def distance(game_state : GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> int:
@@ -66,9 +101,7 @@ def distance(game_state : GameState, start_pos: Tuple[int, int], end_pos: Tuple[
 
 def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
     graph = Graph(game_state.tiles, game_state.our_player.sword)
-    next_pot, dist = graph.bfs(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
-    next_tile = game_state.tiles[next_pot]
-    return next_tile, dist
+    return graph.dijkstra(start_pos, end_pos)
 
 
 def __check_move_is_safe(game_state: GameState, action: Action) -> bool:

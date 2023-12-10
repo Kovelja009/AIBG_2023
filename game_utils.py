@@ -36,3 +36,39 @@ def get_neighbouring_tiles(game_state: GameState, tile: Tile) -> List[Tile]:
         if new_pos in game_state.tiles:
             neighbours.append(game_state.tiles[new_pos])
     return neighbours
+
+def stone_attacked_tiles(game_state: GameState, stone_state):
+    stones = get_all_tiles_of_type(game_state, EntityType.STONE)
+    attacked_tiles = []
+    for stone in stones:
+        q, r = stone.position
+        if stone_state == 0:
+            attacked_tiles.append((q + 1, r - 1))
+            attacked_tiles.append((q + 2, r - 2))
+        elif stone_state == 1:
+            attacked_tiles.append((q + 1, r))
+            attacked_tiles.append((q + 2, r))
+        elif stone_state == 2:
+            attacked_tiles.append((q, r + 1))
+            attacked_tiles.append((q, r + 2))
+        elif stone_state == 3:
+            attacked_tiles.append((q - 1, r + 1))
+            attacked_tiles.append((q - 2, r + 2))
+        elif stone_state == 4:
+            attacked_tiles.append((q - 1, r))
+            attacked_tiles.append((q - 2, r))
+        elif stone_state == 5:
+            attacked_tiles.append((q, r - 1))
+            attacked_tiles.append((q, r - 2))
+        elif stone_state == 6:
+            attacked_tiles.append((q + 2, r - 2))
+            attacked_tiles.append((q + 2, r - 1))
+            attacked_tiles.append((q + 1, r + 1))
+            attacked_tiles.append((q, r + 2))
+            attacked_tiles.append((q - 2, r + 2))
+            attacked_tiles.append((q - 2, r + 1))
+            attacked_tiles.append((q - 1, r - 1))
+            attacked_tiles.append((q, r - 2))
+        else:
+            raise Exception("Invalid stone state")
+    return attacked_tiles
