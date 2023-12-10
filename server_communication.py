@@ -53,10 +53,10 @@ def game_make_move_train(base_url, token, action, q, r):
 def create_game(base_url, token):
     players_json = {
         "playerUsernames": ["debelizonger1", "debelizonger2", "debelizonger3", "debelizonger4"],
-        "mapName": "test2.txt"
+        "mapName": "test1.txt"
     }
     response = requests.post(base_url + "/game/createGame", headers={'Authorization': 'Bearer ' + token},
-                             json=players_json, timeout=15)
+                             json=players_json, timeout=25)
 
     data = json.loads(response.text)
     print(data)
