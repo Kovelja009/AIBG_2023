@@ -32,7 +32,11 @@ class Renderer:
         self.plot_axis = plt.gca()
         self.board = []
         self.ourPlayer = ourPlayer
+        self.update_state(tiles, ourPlayer)
+        plt.ion()
 
+    def update_state(self, tiles: Dict[Tuple[int, int], Tile], ourPlayer: Player):
+        self.ourPlayer = ourPlayer
         # Fill board based on tiles (convert between coords)
         start_row_pos = (0, -(self.board_size // 2))
         col_cnt = self.board_size // 2 + 1
@@ -61,7 +65,6 @@ class Renderer:
             col_cnt -= 1
             start_row_pos = (start_row_pos[0], start_row_pos[1] + 1)
 
-        plt.ion()
 
     def display_legend(self):
         handles = []
