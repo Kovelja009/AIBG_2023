@@ -26,6 +26,8 @@ def game_make_move(base_url, token, action, q, r, timeout=15):
 
     data = json.loads(response.text)
 
+    print(f'message: {data["message"]}')
+
     return data['gameState']
 
 

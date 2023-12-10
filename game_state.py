@@ -48,7 +48,7 @@ def get_tile_type(type):
 class Entity:
     def __init__(self, type, q=None, r=None, **kwargs):
         self.type = type
-        self.posiiton = (q, r)
+        self.position = (q, r)
         if kwargs:
             self.__dict__.update(kwargs)
 
