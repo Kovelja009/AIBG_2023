@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from game_state import GameState
+from game_state import GameState, Tile
 
 
 class Strategy(ABC):
@@ -7,5 +7,5 @@ class Strategy(ABC):
         self.strategy_manager = strategy_manager
 
     @abstractmethod
-    def execute_move(self, game_state: GameState) -> None:
+    def execute_move(self, game_state: GameState) -> Tile:
         pass
