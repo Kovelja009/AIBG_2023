@@ -52,9 +52,12 @@ class Graph:
             (x, y) = path[(x, y)]
 
         return (x, y), d
+    
 
 def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
-    raise NotImplementedError
+    graph = Graph(game_state.tiles, game_state.our_player.sword)
+    next_tile, dist = graph.bfs(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+    return next_tile, dist
 
 def __check_move_is_safe(game_state: GameState, next_tile: Tile) -> bool:
     """
