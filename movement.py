@@ -95,7 +95,7 @@ class Graph:
 
 def distance(game_state : GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> int:
     graph = Graph(game_state.tiles, game_state.our_player.sword)
-    next_tile, dist = graph.bfs(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+    next_tile, dist = graph.dijkstra(start_pos, end_pos)
     return dist
 
 
