@@ -12,7 +12,7 @@ def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tu
     raise NotImplementedError
 
 
-def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, source_tile: Tile) -> Tile:
+def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, source_tile: Tile) -> Tuple[Tile, int]:
     '''
     Returns the closest tile of a given type to the source tile
     '''
@@ -25,7 +25,7 @@ def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, sou
             closest_tile = tile
             closest_dist = dist
 
-    return closest_tile
+    return closest_tile, closest_dist
 
 
 def __check_move_is_safe(game_state: GameState, next_tile: Tile) -> bool:
