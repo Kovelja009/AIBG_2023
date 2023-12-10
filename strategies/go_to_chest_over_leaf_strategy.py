@@ -1,7 +1,7 @@
 from strategy import Strategy
 from strategy_manager import StrategyManager
 from game_state import Tile
-from game_utils import get_next_move
+from movement import get_next_move
 import logging
 from typing import Union
 

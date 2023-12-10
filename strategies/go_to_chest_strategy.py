@@ -1,7 +1,8 @@
 from strategy import Strategy
 from strategy_manager import StrategyManager
 from game_state import TileType, EntityType, Tile
-from game_utils import get_all_tiles_of_type, get_next_move
+from game_utils import get_all_tiles_of_type
+from movement import get_next_move
 from go_to_chest_over_leaf_strategy import GoToChestOverLeafStrategy
 from typing import Union
 import logging

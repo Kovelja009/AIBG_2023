@@ -3,7 +3,7 @@ from typing import Union
 from game_state import GameState, EntityType, Tile
 from strategy import Strategy
 from game_utils import get_closest_tile_of_type
-from game_utils import get_next_move
+from movement import get_next_move
 
 class CircleStoneStrategy(Strategy):
 
