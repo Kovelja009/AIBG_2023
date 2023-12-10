@@ -10,9 +10,12 @@ from typing import Union
 
 class HarvestTreeStrategy(Strategy):
     arrived_at_tree: bool
+    score_at_start: int
+
     def __init__(self, manager: StrategyManager):
         super().__init__(manager)
         self.arrived_at_tree = False
+        self.score_at_start = 0
 
     def execute_move(self, game_state: GameState) -> Union[Tile, None]:
         logging.info("Executing HarvestTreeStrategy")
@@ -20,7 +23,10 @@ class HarvestTreeStrategy(Strategy):
         # Find the closest tree
         our_player = game_state.our_player
         tree, dist = get_closest_tile_of_type(game_state, EntityType.TREES, our_player.position)
-        self.arrived_at_tree =
+        if not self.arrived_at_tree and dist == 1:
+            self.arrived_at_tree = True
+            self.score_at_start = our_player.score
+
         if not self.arrived_at_tree:
             logging.info("Going to closest tree")
             # Move to the tree
@@ -29,6 +35,7 @@ class HarvestTreeStrategy(Strategy):
                 return next_tile
             except:
                 logging.error("Conflict while moving to tree")
-                return None # TODO: Handle this
+                return None  # TODO: Handle this
         else:
-
+            logging.info("Harvesting tree")
+            
