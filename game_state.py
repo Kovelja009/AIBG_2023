@@ -20,16 +20,14 @@ class EntityType(Enum):
 class Entity:
     def __init__(self, entity_type, q, r, **kwargs):
         self.type = entity_type
-        self.q = q
-        self.r = r
+        self.posiiton = (q, r)
         if kwargs:
             self.__dict__.update(kwargs)
 
 
 class Tile:
     def __init__(self, q, r, tile_type, entity):
-        self.q = q
-        self.r = r
+        self.position = (q, r)
         self.tileType = tile_type
         self.entity = Entity(**entity)
         self.is_attacked = False
@@ -39,8 +37,7 @@ class Player:
     def __init__(self, type, q, r, playerIdx, name, score, health, attackPower, skull, skullWin, scoreLevel,
                  sword) -> None:
         self.type = type
-        self.q = q
-        self.r = r
+        self.position = (q, r)
         self.playerIdx = playerIdx
         self.name = name
         self.score = score
@@ -60,24 +57,30 @@ class GameState:
     skull_win: bool
     our_idx: int
     stone_state: int
-    players: List[Player]
+    our_player: Player
 
     def __init__(self, turn, map_size, our_idx, skull_win: bool, tiles: List[Tile], players: List[Player],
                  stone_attacks: List[(int, int)]):
         self.turn = turn
         self.size = map_size
         self.skull_win = skull_win
-        self.tiles = tiles
         self.our_idx = our_idx
         self.players = players
+
         # go through players and check if q and r is the same as tiles q and r and set tiles entity to player
         for player in players:
             for tile in tiles:
-                if player.q == tile.q and player.r == tile.r:
+                if player.position == tile.position:
                     tile.entity = player
                     break
 
-        self.tiles = {(tile.q, tile.r): tile for tile in tiles}
+        # traverse through players and find our player
+        for player in players:
+            if player.playerIdx == our_idx:
+                self.our_player = player
+                break
+
+        self.tiles = {tile.position: tile for tile in tiles}
 
         for stone_attack in stone_attacks:
             self.tiles[stone_attack].is_attacked = True
