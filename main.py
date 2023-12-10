@@ -1,3 +1,5 @@
+import json
+
 import server_communication
 import json_parser
 
@@ -45,9 +47,11 @@ def train_game():
 
 
 if __name__ == '__main__':
-    # for i in range(1, 5):
-    #     user_json['username'] = f'debelizonger{i}'
-    token = server_communication.login(SERVER_IP, user_json)
-    #     print(token)
-    #     server_communication.join_game(SERVER_IP, token)
-    create_game = server_communication.create_game(SERVER_IP, token)
+    with open('json_example.json') as f:
+        js = json.load(f)
+        state = js['gameState']
+        # convert json to string
+        json_string = json.dumps(state)
+        game_state = json_parser.get_game_state_from_json(json_string, 1)
+
+        print(game_state.turn)

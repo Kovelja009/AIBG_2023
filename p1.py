@@ -7,7 +7,7 @@ SERVER_IP = 'http://134.209.244.186:8081'
 user_json = {'username': 'debelizonger1', 'password': 'nafmWQarjy'}
 
 token = server_communication.login(SERVER_IP, user_json)
-create_game = server_communication.create_game(SERVER_IP, token)
+# create_game = server_communication.create_game(SERVER_IP, token)
 playerIdx, gameState = server_communication.join_game(SERVER_IP, token)
 print(playerIdx, gameState)
 

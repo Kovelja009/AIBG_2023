@@ -11,7 +11,7 @@ def login(base_url, myjson):
 
 
 def join_game(base_url, token):
-    response = requests.get(base_url + "/game/joinGame", headers={'Authorization': 'Bearer ' + token}, timeout=15)
+    response = requests.get(base_url + "/game/joinGame", headers={'Authorization': 'Bearer ' + token}, timeout=25)
     data = json.loads(response.text)
 
     return data['playerIdx'], data['gameState']
