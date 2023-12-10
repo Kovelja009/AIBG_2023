@@ -1,5 +1,5 @@
 from typing import Tuple
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Action(ABC):
@@ -8,5 +8,6 @@ class Action(ABC):
     def __init__(self, postion: Tuple[int, int]):
         self.position = postion
 
+    @abstractmethod
     def json(self):
         pass

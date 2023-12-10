@@ -1,4 +1,4 @@
-from action import Action
+from actions.action import Action
 from typing import Tuple
 import json
 

@@ -1,5 +1,5 @@
 from typing import Tuple
-from action import Action
+from actions.action import Action
 import json
 
 class AttackAction(Action):

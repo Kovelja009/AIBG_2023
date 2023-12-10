@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 def login(base_url, myjson):
     response = requests.post(base_url + "/user/login", json=myjson)
     data = json.loads(response.text)
@@ -18,9 +17,7 @@ def join_game(base_url, token):
     return data['playerIdx'], data['gameState']
 
 
-def game_make_move(base_url, token, action, q, r, timeout=15):
-    action_str = f"{action},{q},{r}"
-    action_json = {'action': action_str}
+def game_make_move(base_url, token, action_json, timeout=15):
     response = requests.post(base_url + "/game/doAction", headers={'Authorization': 'Bearer ' + token},
                              json=action_json, timeout=timeout)
 

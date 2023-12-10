@@ -14,5 +14,5 @@ class HasSwordStrategy(Strategy):
 
     def execute_move(self, game_state: GameState) -> Union[Action, None]:
         logging.info("Executing HasSwordStrategy")
-        self.strategy_manager.transition(HarvestTreeStrategy(self.strategy_manager))
+        self.strategy_manager.transition(game_state, HarvestTreeStrategy(self.strategy_manager))
         return None

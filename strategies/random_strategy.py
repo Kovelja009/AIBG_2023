@@ -5,7 +5,6 @@ import logging
 from game_state import GameState
 from typing import Union
 from actions.action import Action
-from harvest_tree_strategy import HarvestTreeStrategy
 from game_utils import get_neighbouring_tiles
 from game_state import EntityType, TileType
 from actions.move_action import MoveAction

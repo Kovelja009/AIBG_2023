@@ -43,7 +43,7 @@ class GoToChestStrategy(Strategy):
         # Find chest position that corresponds to our player
         chests = get_all_tiles_of_type(game_state, EntityType.CHEST)
         try:
-            our_chest = [chest for chest in chests if chest.entity.idx == game_state.our_player.playerIdx][0]
+            our_chest = [chest for chest in chests if chest.entity.idx+1 == game_state.our_player.playerIdx][0]
         except IndexError:
             logging.error("Could not find our chest")
             return None  # TODO: Handle strategy failure
@@ -54,7 +54,7 @@ class GoToChestStrategy(Strategy):
             if leaf:
                 logging.info("Going over leaf to the chest")
                 self.tried_leaf = True
-                self.strategy_manager.transition(GoToChestOverLeafStrategy(self.strategy_manager, leaf, our_chest))
+                self.strategy_manager.transition(game_state, GoToChestOverLeafStrategy(self.strategy_manager, leaf, our_chest))
                 return None
         try:
             next_tile, _ = get_next_move(game_state, game_state.our_player.position, our_chest.position)

@@ -38,17 +38,16 @@ class Graph:
         else:
             self.graph[(x, y)] = [((q, r), weight)]
 
-    def bfs(self, q, r, x, y):
+    def bfs(self, q, r, x, y) -> Tuple[Tuple[int,int], int]:
         queue = []
         path = {}
         dist = {}
-        tem = 0
 
         for tem in range(len(queue)):
             for element in self.graph[(queue[tem])]:
                 if element in dist:
-                    path[element] = queue[tem];
-                    dist[element] = dist[queue[tem]] + 1
+                    path[element] = queue[tem]
+                    dist[element] = dist.get(queue[tem]) + 1
                     queue.append(element)
 
         d = dist[(x, y)]
@@ -59,9 +58,16 @@ class Graph:
         return (x, y), d
 
 
-def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
+def distance(game_state : GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> int:
     graph = Graph(game_state.tiles, game_state.our_player.sword)
     next_tile, dist = graph.bfs(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+    return dist
+
+
+def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
+    graph = Graph(game_state.tiles, game_state.our_player.sword)
+    next_pot, dist = graph.bfs(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+    next_tile = game_state.tiles[next_pot]
     return next_tile, dist
 
 
