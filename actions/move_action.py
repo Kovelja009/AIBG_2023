@@ -9,6 +9,6 @@ class MoveAction(Action):
 
     def json(self):
         q, r = self.position
-        return json.dumps({
-            'action' : f'move,{q}, {r}'
-        })
+        return {
+            'action' : f'move,{q},{r}'
+        }

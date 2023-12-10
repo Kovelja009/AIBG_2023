@@ -8,6 +8,6 @@ class AttackAction(Action):
 
     def json(self):
         q, r = self.position
-        return json.dumps({
+        return {
             'action' : f'attack,{q},{r}'
-        })
+        }

@@ -17,13 +17,12 @@ def join_game(base_url, token):
     return data['playerIdx'], data['gameState']
 
 
-def game_make_move(base_url, token, action_json, timeout=15):
+def game_make_move(base_url, token, action_json, timeout=125):
     response = requests.post(base_url + "/game/doAction", headers={'Authorization': 'Bearer ' + token},
                              json=action_json, timeout=timeout)
 
     data = json.loads(response.text)
-
-    print(f'message: {data["message"]}')
+    print(data)
 
     return data['gameState']
 
