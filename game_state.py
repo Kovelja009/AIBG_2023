@@ -19,17 +19,17 @@ class EntityType(Enum):
 
 
 class Entity:
-    def __init__(self, entity_type, q, r, **kwargs):
-        self.type = entity_type
+    def __init__(self, type, q=None, r=None, **kwargs):
+        self.type = type
         self.posiiton = (q, r)
         if kwargs:
             self.__dict__.update(kwargs)
 
 
 class Tile:
-    def __init__(self, q, r, tile_type, entity):
+    def __init__(self, q, r, tileType, entity):
         self.position = (q, r)
-        self.tileType = tile_type
+        self.tileType = tileType
         self.entity = Entity(**entity)
         self.is_attacked = False
 
@@ -53,14 +53,14 @@ class Player:
 class GameState:
     turn: int
     size: int
-    tiles: Dict[(int, int), Tile]
+    # tiles: Dict[(int, int), Tile]
     players: List[Player]
     skull_win: bool
     stone_state: int
     our_player: Player
 
     def __init__(self, turn, map_size, our_idx, skull_win: bool, tiles: List[Tile], players: List[Player],
-                 stone_attacks: List[(int, int)]):
+                 stone_attacks):
         self.turn = turn
         self.size = map_size
         self.skull_win = skull_win
@@ -91,11 +91,3 @@ class GameState:
         self.stone_state += 1
         self.stone_state %= 7
 
-# # Creating GameState object from JSON data
-# game_state = GameState(
-#     json_data['gameState']['turn'],
-#     json_data['gameState']['map']['size'],
-#     json_data['gameState']['skullWin'],
-#     [Tile(**tile) for tile in json_data['gameState']['map']['tiles']],
-#     [Player(**player) for player in json_data['gameState']['scoreBoard']['players']
-# )
