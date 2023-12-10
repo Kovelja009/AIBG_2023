@@ -56,7 +56,6 @@ class GameState:
     tiles: Dict[(int, int), Tile]
     players: List[Player]
     skull_win: bool
-    our_idx: int
     stone_state: int
     our_player: Player
 
@@ -65,7 +64,6 @@ class GameState:
         self.turn = turn
         self.size = map_size
         self.skull_win = skull_win
-        self.our_idx = our_idx
         self.players = players
 
         # go through players and check if q and r is the same as tiles q and r and set tiles entity to player
