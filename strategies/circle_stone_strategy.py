@@ -11,6 +11,6 @@ class CircleStoneStrategy(Strategy):
         super().__init__(strategy_manager)
     
     def execute_move(self, game_state: GameState) -> Union[Tile, int]:
-        closest_stone, dist = get_closest_tile_of_type(game_state, EntityType.STONE, game_state.our_player)
+        closest_stone, dist = get_closest_tile_of_type(game_state, EntityType.STONE, game_state.our_player.position)
         get_next_move(game_state, game_state.our_player, closest_stone)
 
