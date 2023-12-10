@@ -6,7 +6,7 @@ import logging
 from typing import Union
 from actions.action import Action
 from actions.move_action import MoveAction
-from circle_stone_strategy import CircleStoneStrategy
+from strategies.circle_stone_strategy import CircleStoneStrategy
 
 class GoToChestOverLeafStrategy(Strategy):
     leafTile: Tile

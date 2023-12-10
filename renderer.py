@@ -37,6 +37,7 @@ class Renderer:
 
     def update_state(self, tiles: Dict[Tuple[int, int], Tile], ourPlayer: Player):
         self.ourPlayer = ourPlayer
+        self.board = []
         # Fill board based on tiles (convert between coords)
         start_row_pos = (0, -(self.board_size // 2))
         col_cnt = self.board_size // 2 + 1
@@ -65,6 +66,7 @@ class Renderer:
             col_cnt -= 1
             start_row_pos = (start_row_pos[0], start_row_pos[1] + 1)
 
+        #self.display_legend()
 
     def display_legend(self):
         handles = []
@@ -83,6 +85,8 @@ class Renderer:
         self.plot_axis.legend(loc='center left', bbox_to_anchor=(1, 0.5), handles=handles)
 
     def render(self):
+        plt.cla()
+        self.plot_axis.cla()
         # ko zna sta sve ovo ispod radi ali izgleda da napravi hex grid
         rows_hex = [{} for _ in range(self.board_size)]
         for i in range(self.board_size):
@@ -131,6 +135,6 @@ class Renderer:
                                           plotting_gap=0.05,
                                           rotate_deg=0, h_ax=self.plot_axis)
 
-        self.display_legend()
+        plt.pause(0.001)
 
 

@@ -16,7 +16,7 @@ def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, sou
     closest_tile = None
     closest_dist = float('inf')
     for tile in tiles:
-        dist = distance(tile.position, source_pos)
+        dist = distance(game_state, tile.position, source_pos)
         if dist < closest_dist:
             closest_tile = tile
             closest_dist = dist

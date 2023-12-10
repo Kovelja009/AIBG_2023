@@ -9,7 +9,7 @@ from graph import Graph, enemy_is_neighbor_of_tile, check_move_is_safe
 
 
 def distance(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> int:
-    graph = Graph(game_state.tiles, game_state.our_player.sword)
+    graph = Graph(game_state, game_state.our_player.sword)
     next_tile, dist = graph.dijkstra(start_pos, end_pos)
     return dist
 
