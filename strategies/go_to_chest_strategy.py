@@ -8,6 +8,7 @@ from typing import Union
 import logging
 from actions.action import Action
 from actions.move_action import MoveAction
+from circle_stone_strategy import CircleStoneStrategy
 
 DISTANCE_THRESHOLD = 3
 
@@ -40,6 +41,11 @@ class GoToChestStrategy(Strategy):
 
     def execute_move(self, game_state) -> Union[Action, None]:
         print("INFO: Executing GoToChestStrategy")
+        # Player has sword transition to go to stone
+        if game_state.our_player.sword:
+            print("INFO: Player has sword transitioning to CircleStoneStrategy")
+            self.strategy_manager.transition(game_state, CircleStoneStrategy(self.strategy_manager))
+
         # Find chest position that corresponds to our player
         chests = get_all_tiles_of_type(game_state, EntityType.CHEST)
         try:

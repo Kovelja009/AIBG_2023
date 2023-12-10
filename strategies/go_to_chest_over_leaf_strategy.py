@@ -6,7 +6,7 @@ import logging
 from typing import Union
 from actions.action import Action
 from actions.move_action import MoveAction
-
+from circle_stone_strategy import CircleStoneStrategy
 
 class GoToChestOverLeafStrategy(Strategy):
     leafTile: Tile
@@ -21,6 +21,11 @@ class GoToChestOverLeafStrategy(Strategy):
 
     def execute_move(self, game_state) -> Union[Action, None]:
         print("INFO: Executing GoToChestOverLeafStrategy")
+        # Player has sword transition to go to stone
+        if game_state.our_player.sword:
+            print("INFO: Player has sword transitioning to CircleStoneStrategy")
+            self.strategy_manager.transition(game_state, CircleStoneStrategy(self.strategy_manager))
+            return None
         # Find chest position that corresponds to our player
         our_player = game_state.our_player
         player_pos = our_player.position
