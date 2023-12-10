@@ -20,7 +20,7 @@ class GoToChestOverLeafStrategy(Strategy):
         self.leafReached = False
 
     def execute_move(self, game_state) -> Union[Action, None]:
-        logging.info("Executing GoToChestOverLeafStrategy")
+        print("INFO: Executing GoToChestOverLeafStrategy")
         # Find chest position that corresponds to our player
         our_player = game_state.our_player
         player_pos = our_player.position
@@ -28,18 +28,18 @@ class GoToChestOverLeafStrategy(Strategy):
             self.leafReached = True
         # Get path from player to leaf if leaf not reached
         if not self.leafReached:
-            logging.info("Leaf not reached yet, going to leaf")
+            print("INFO: Leaf not reached yet, going to leaf")
             try:
                 next_tile, _ = get_next_move(game_state, player_pos, self.leafTile.position)
                 return MoveAction(next_tile.position)
             except:
-                logging.info("Canceled going to leaf, going to chest")
+                print("INFO: Canceled going to leaf, going to chest")
                 self.leafReached = True  # Cancel going to leaf
         else:
-            logging.info("Leaf reached or aborted, going to chest")
+            print("INFO: Leaf reached or aborted, going to chest")
             try:
                 next_tile, _ = get_next_move(game_state, player_pos, self.chestTile.position)
                 return MoveAction(next_tile.position)
             except:
-                logging.error("Conflict while going to chest")
+                print("ERROR: Conflict while going to chest")
                 return None  # TODO: Override strategy and force move

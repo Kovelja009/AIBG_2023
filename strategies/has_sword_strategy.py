@@ -13,6 +13,6 @@ class HasSwordStrategy(Strategy):
         super().__init__(manager)
 
     def execute_move(self, game_state: GameState) -> Union[Action, None]:
-        logging.info("Executing HasSwordStrategy")
+        print("INFO: Executing HasSwordStrategy")
         self.strategy_manager.transition(game_state, HarvestTreeStrategy(self.strategy_manager))
         return None

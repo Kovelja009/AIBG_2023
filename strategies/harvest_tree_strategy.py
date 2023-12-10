@@ -36,7 +36,7 @@ class HarvestTreeStrategy(Strategy):
         raise NotImplementedError
 
     def execute_move(self, game_state: GameState) -> Union[Action, None]:
-        logging.info("Executing HarvestTreeStrategy")
+        print("INFO: Executing HarvestTreeStrategy")
 
         # Find the closest tree
         our_player = game_state.our_player
@@ -46,25 +46,25 @@ class HarvestTreeStrategy(Strategy):
             self.score_at_start = our_player.score
 
         if not self.arrived_at_tree:
-            logging.info("Going to closest tree")
+            print("INFO: Going to closest tree")
             # Move to the tree
             try:
                 next_tile, _ = get_next_move(game_state, our_player.position, tree.position)
                 return MoveAction(next_tile.position)
             except:
-                logging.error("Conflict while moving to tree")
+                print("ERROR: Conflict while moving to tree")
                 return None  # TODO: Handle this
         else:
-            logging.info("Harvesting tree")
+            print("INFO: Harvesting tree")
             time_to_harvest = ceil(tree.entity.health / our_player.attackPower)
             if time_to_harvest == 2 and self.tree_has_enemy_as_neighbor(game_state, tree):
-                logging.info("Tree has enemy as neighbor, should probably switch") # TODO: Implement this
+                print("INFO: Tree has enemy as neighbor, should probably switch") # TODO: Implement this
             attack_action = AttackAction(tree.position)
             try:
                 ensure_valid_move(game_state, attack_action)
                 return attack_action
             except MoveResultsInConflictException:
-                logging.error("Conflict while harvesting tree")
+                print("ERROR: Conflict while harvesting tree")
                 # TODO: Switch tree for now just move in a valid direction
                 player_tile = game_state.tiles[our_player.position]
                 for neighbor in get_neighbouring_tiles(game_state, player_tile):

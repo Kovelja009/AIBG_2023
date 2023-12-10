@@ -39,22 +39,22 @@ class GoToChestStrategy(Strategy):
         return closest_leaf
 
     def execute_move(self, game_state) -> Union[Action, None]:
-        logging.info("Executing GoToChestStrategy")
+        print("INFO: Executing GoToChestStrategy")
         # Find chest position that corresponds to our player
         chests = get_all_tiles_of_type(game_state, EntityType.CHEST)
         try:
             our_chest = [chest for chest in chests if chest.entity.idx+1 == game_state.our_player.playerIdx][0]
         except IndexError:
-            logging.error("Could not find our chest")
+            print("ERROR: Could not find our chest")
             return None  # TODO: Handle strategy failure
 
         if not self.tried_leaf:
-            logging.info("Trying to go over leaf")
+            print("INFO: Trying to go over leaf")
             leaf = self.can_go_over_leaf(game_state, our_chest)
             self.tried_leaf = True
 
             if leaf:
-                logging.info("Going over leaf to the chest")
+                print("INFO: Going over leaf to the chest")
                 self.strategy_manager.transition(game_state, GoToChestOverLeafStrategy(self.strategy_manager, leaf, our_chest))
                 return None
         try:
