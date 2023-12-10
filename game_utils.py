@@ -8,20 +8,6 @@ def get_all_tiles_of_type(game_state: GameState, entity_type: EntityType):
     return [tile for tile in game_state.tiles.values() if tile.entity.type == entity_type]
 
 
-def __node_dist(node1: Tuple[int, int], node2: Tuple[int, int]) -> int:
-    """
-    Returns the distance between two nodes on hexagonal grid by runing a bfs from node1 to node2
-    """
-    raise NotImplementedError
-
-
-def run_dijkstra(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
-    """
-    Returns the next tile to move to on the shortest path from start_tile to end_tile
-    """
-    raise NotImplementedError
-
-
 def get_next_move(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tuple[int, int]) -> Tuple[Tile, int]:
     raise NotImplementedError
 
