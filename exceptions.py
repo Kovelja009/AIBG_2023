@@ -1,0 +1,2 @@
+class MoveResultsInConflictException(Exception):
+    pass

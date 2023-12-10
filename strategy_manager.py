@@ -7,4 +7,4 @@ class StrategyManager:
 
     def transition(self, new_strategy: Strategy):
         self.current_strategy = new_strategy
-        self.current_strategy.execute()
+        self.current_strategy.execute_move()
