@@ -1,11 +1,13 @@
-from strategy import Strategy
+from strategies.strategy import Strategy
 from strategy_manager import StrategyManager
-from game_state import TileType, EntityType, Tile
+from game_state import EntityType, Tile
 from game_utils import get_all_tiles_of_type
 from movement import get_next_move
 from go_to_chest_over_leaf_strategy import GoToChestOverLeafStrategy
 from typing import Union
 import logging
+from actions.action import Action
+from actions.move_action import MoveAction
 
 DISTANCE_THRESHOLD = 3
 
@@ -36,7 +38,7 @@ class GoToChestStrategy(Strategy):
                     closest_leaf = leaf
         return closest_leaf
 
-    def execute_move(self, game_state) -> Union[Tile, None]:
+    def execute_move(self, game_state) -> Union[Action, None]:
         logging.info("Executing GoToChestStrategy")
         # Find chest position that corresponds to our player
         chests = get_all_tiles_of_type(game_state, EntityType.CHEST)
@@ -56,6 +58,6 @@ class GoToChestStrategy(Strategy):
                 return None
         try:
             next_tile, _ = get_next_move(game_state, game_state.our_player.position, our_chest.position)
-            return next_tile
+            return MoveAction(next_tile.position)
         except:
             return None  # TODO: Override strategy and force move

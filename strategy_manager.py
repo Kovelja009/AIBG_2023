@@ -1,4 +1,4 @@
-from strategy import Strategy
+from strategies.strategy import Strategy
 from game_state import GameState
 
 
