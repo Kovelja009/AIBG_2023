@@ -6,13 +6,13 @@ def login(base_url, myjson):
     response = requests.post(base_url + "/user/login", json=myjson)
     data = json.loads(response.text)
 
-    print(data)
+    # print(data)
 
     return data['token']
 
 
 def join_game(base_url, token):
-    response = requests.get(base_url + "/game/joinGame", headers={'Authorization': 'Bearer ' + token})
+    response = requests.get(base_url + "/game/joinGame", headers={'Authorization': 'Bearer ' + token}, timeout=15)
     data = json.loads(response.text)
 
     return data['playerIdx'], data['gameState']
@@ -48,4 +48,17 @@ def game_make_move_train(base_url, token, action, q, r):
 
     print(response.text)
 
-    retu
+    return response.text
+
+
+def create_game(base_url, token):
+    players_json = {
+        "playerUsernames": ["debelizonger1", "debelizonger2", "debelizonger3", "debelizonger4"],
+        "mapName": "test2.txt"
+    }
+    response = requests.post(base_url + "/game/createGame", headers={'Authorization': 'Bearer ' + token},
+                             json=players_json, timeout=15)
+
+    data = json.loads(response.text)
+    print(data)
+    return data

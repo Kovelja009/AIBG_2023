@@ -3,7 +3,7 @@ from typing import List, Dict
 
 
 class TileType(Enum):
-    EMPTY = 0
+    NORMAL = 0
     FULL = 1
 
 
@@ -18,6 +18,33 @@ class EntityType(Enum):
     LEAVES = 7
 
 
+def get_entity_type(type):
+    type = type.upper()
+    if type == "NONE":
+        return EntityType.NONE
+    elif type == "TREES":
+        return EntityType.TREES
+    elif type == "CHEST":
+        return EntityType.CHEST
+    elif type == "STONE":
+        return EntityType.STONE
+    elif type == "CLIFF":
+        return EntityType.CLIFF
+    elif type == "PLAYER":
+        return EntityType.ENEMY_PLAYER
+    elif type == "SKULL":
+        return EntityType.SKULL
+    elif type == "LEAVES":
+        return EntityType.LEAVES
+
+def get_tile_type(type):
+    type = type.upper()
+    if type == "NORMAL":
+        return TileType.NORMAL
+    elif type == "FULL":
+        return TileType.FULL
+
+
 class Entity:
     def __init__(self, type, q=None, r=None, **kwargs):
         self.type = type
@@ -29,7 +56,7 @@ class Entity:
 class Tile:
     def __init__(self, q, r, tileType, entity):
         self.position = (q, r)
-        self.tileType = tileType
+        self.tileType = get_tile_type(tileType)
         self.entity = Entity(**entity)
         self.is_attacked = False
 
@@ -79,6 +106,11 @@ class GameState:
                 self.our_player = player
                 break
 
+        for tile in tiles:
+            tile.entity.type = get_entity_type(tile.entity.type)
+            if tile.entity.position == self.our_player.position:
+                tile.entity.type = EntityType.NONE
+
         self.tiles = {tile.position: tile for tile in tiles}
 
         for stone_attack in stone_attacks:
@@ -90,4 +122,3 @@ class GameState:
     def change_stone_state(self):
         self.stone_state += 1
         self.stone_state %= 7
-
