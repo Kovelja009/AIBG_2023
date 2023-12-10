@@ -1,8 +1,6 @@
 from typing import Tuple
 from game_state import EntityType, GameState, Tile
-from movement import distance
 from typing import List
-
 
 def get_all_tiles_of_type(game_state: GameState, entity_type: EntityType):
     return [tile for tile in game_state.tiles.values() if tile.entity.type == entity_type]
@@ -13,6 +11,7 @@ def get_closest_tile_of_type(game_state: GameState, entity_type: EntityType, sou
     '''
     Returns the closest tile of a given type to the source tile
     '''
+    from movement import distance
     tiles = get_all_tiles_of_type(game_state, entity_type)
     closest_tile = None
     closest_dist = float('inf')

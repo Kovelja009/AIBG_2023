@@ -2,6 +2,10 @@ import json
 
 import server_communication
 import json_parser
+from strategy_manager import StrategyManager
+from strategies.random_strategy import RandomStrategy
+from strategies.go_to_chest_strategy import GoToChestStrategy
+from renderer import Renderer
 
 # SERVER_IP = 'http://134.209.240.184:8081'
 SERVER_IP = 'http://134.209.244.186:8081'
@@ -53,5 +57,11 @@ if __name__ == '__main__':
         # convert json to string
         json_string = json.dumps(state)
         game_state = json_parser.get_game_state_from_json(json_string, 1)
+
+        renderer = Renderer(29, game_state.tiles, game_state.our_player)
+        renderer.render()
+        manager = StrategyManager()
+        manager.current_strategy = GoToChestStrategy(manager)
+        action = manager.execute_current_strategy(game_state)
 
         print(game_state.turn)

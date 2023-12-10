@@ -16,6 +16,7 @@ class EntityType(Enum):
     ENEMY_PLAYER = 5
     SKULL = 6
     LEAVES = 7
+    OUR_PLAYER = 8
 
 
 def get_entity_type(type):
@@ -109,7 +110,7 @@ class GameState:
         for tile in tiles:
             tile.entity.type = get_entity_type(tile.entity.type)
             if tile.entity.position == self.our_player.position:
-                tile.entity.type = EntityType.NONE
+                tile.entity.type = EntityType.OUR_PLAYER
 
         self.tiles = {tile.position: tile for tile in tiles}
 

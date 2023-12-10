@@ -3,7 +3,7 @@ from strategy_manager import StrategyManager
 from game_state import EntityType, Tile
 from game_utils import get_all_tiles_of_type
 from movement import get_next_move
-from go_to_chest_over_leaf_strategy import GoToChestOverLeafStrategy
+from strategies.go_to_chest_over_leaf_strategy import GoToChestOverLeafStrategy
 from typing import Union
 import logging
 from actions.action import Action
@@ -51,9 +51,10 @@ class GoToChestStrategy(Strategy):
         if not self.tried_leaf:
             logging.info("Trying to go over leaf")
             leaf = self.can_go_over_leaf(game_state, our_chest)
+            self.tried_leaf = True
+
             if leaf:
                 logging.info("Going over leaf to the chest")
-                self.tried_leaf = True
                 self.strategy_manager.transition(game_state, GoToChestOverLeafStrategy(self.strategy_manager, leaf, our_chest))
                 return None
         try:
