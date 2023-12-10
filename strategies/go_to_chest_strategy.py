@@ -1,14 +1,14 @@
 from strategy import Strategy
 from strategy_manager import StrategyManager
 from game_state import TileType, EntityType
-from game_utils import get_all_tiles_of_type
+from game_utils import get_all_tiles_of_type, try_execute_move
 import logging
 
 class GoToChestStrategy(Strategy):
     def __init__(self, manager: StrategyManager):
         super().__init__(manager)
     
-    def execute(self, game_state):
+    def execute_move(self, game_state):
         # Find chest position that corresponds to our player
         chests = get_all_tiles_of_type(game_state, EntityType.CHEST)
         our_chest = None
@@ -19,4 +19,5 @@ class GoToChestStrategy(Strategy):
             return # TODO: Handle strategy failure
 
         our_player = game_state.players[game_state.our_idx]
+        
 

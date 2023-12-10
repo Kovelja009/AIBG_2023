@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 from game_state import GameState
 
-class Strategy(ABC):  
+
+class Strategy(ABC):
     def __init__(self, strategy_manager) -> None:
         self.strategy_manager = strategy_manager
 
     @abstractmethod
-    def execute(self, game_state : GameState) -> None:
+    def execute_move(self, game_state: GameState) -> None:
         pass
