@@ -2,7 +2,7 @@ import server_communication
 
 SERVER_IP = 'http://134.209.240.184:8081'
 # SERVER_IP = 'http://134.209.244.186:8081'
-user_json = {'username': 'zonger', 'password': 'sifra'}
+user_json = {'username': 'debelizonger1', 'password': 'nafmWQarjy'}
 
 
 train_url = 'http://134.209.240.184:1234/game?gameId=XX'
@@ -39,3 +39,8 @@ def train_game():
             print("Timeout error")
             break
     print("------Game over!------")
+
+if __name__ == '__main__':
+    # play_game()
+    # train_game()
+    server_communication.login(SERVER_IP, user_json)
