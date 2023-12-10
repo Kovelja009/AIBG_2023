@@ -21,6 +21,10 @@ def run_dijkstra(game_state: GameState, start_pos: Tuple[int, int], end_pos: Tup
     raise NotImplementedError
 
 
+def get_next_move(game_state : GameState, start_pos : Tuple[int, int], end_pos : Tuple[int, int]) -> Tile:
+    raise NotImplementedError
+
+
 def __check_move_is_safe(game_state: GameState, next_tile: Tile) -> bool:
     """
     Check if moving to this tile results in being next to an enemy player

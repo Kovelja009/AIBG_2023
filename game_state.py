@@ -15,6 +15,7 @@ class EntityType(Enum):
     CLIFF = 4
     ENEMY_PLAYER = 5
     SKULL = 6
+    LEAVES = 7
 
 
 class Entity:
