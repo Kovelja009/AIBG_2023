@@ -1,6 +1,9 @@
 import requests
 import json
 
+from exceptions import EndGameException
+
+
 def login(base_url, myjson):
     response = requests.post(base_url + "/user/login", json=myjson)
     data = json.loads(response.text)
@@ -24,6 +27,8 @@ def game_make_move(base_url, token, action_json, timeout=125):
     data = json.loads(response.text)
     print(data)
 
+    if 'message' in data and data['message'] == 'Igra je završena.':
+        raise EndGameException('Igra je zavrsena')
     return data['gameState']
 
 

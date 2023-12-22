@@ -1,4 +1,6 @@
 import json
+from exceptions import EndGameException
+from game_state import EntityType
 
 import server_communication
 import json_parser
@@ -6,7 +8,7 @@ from strategy_manager import StrategyManager
 from strategies.random_strategy import RandomStrategy
 from strategies.go_to_chest_strategy import GoToChestStrategy
 from renderer import Renderer
-from game_utils import get_neighbouring_tiles
+from game_utils import get_all_tiles_of_type, get_neighbouring_tiles
 import random
 from actions.move_action import MoveAction
 from strategies.circle_stone_strategy import CircleStoneStrategy
@@ -31,7 +33,20 @@ def play_game():
 
         try:
             move = strategy_manager.execute_current_strategy(gameStateParsed)
-        except:
+            kamenovi = get_all_tiles_of_type(gameStateParsed, EntityType.STONE)
+            if move.position in [x.position for x in kamenovi]:
+                playerTile = gameStateParsed.tiles[gameStateParsed.our_player.position]
+                susedna_polja = get_neighbouring_tiles(
+                    gameStateParsed, playerTile)
+                susedna_svih_kamenova = sum([
+                    get_neighbouring_tiles(gameStateParsed, y) for y in kamenovi], [])
+                validna = [
+                    x for x in susedna_polja if x in susedna_svih_kamenova]
+                novi = random.choice(validna)
+                move = MoveAction(novi.position)
+
+        except Exception as e:
+            print(e)
             # Do random move
             print('Exception doing random move')
             playerTile = gameStateParsed.tiles[gameStateParsed.our_player.position]
@@ -41,7 +56,14 @@ def play_game():
 
         print(f'sending turn{gameStateParsed.turn} move: {move.json()}')
 
-        gameState = server_communication.game_make_move(SERVER_IP, token, move.json())
+        try:
+            gameState = server_communication.game_make_move(
+                SERVER_IP, token, move.json())
+        except EndGameException:
+            print('Zavrseno')
+            break
+        except Exception as e:
+            print(e)
         print('received new game state')
 
 
@@ -53,14 +75,16 @@ def train_game():
 
     token = server_communication.login(SERVER_IP, user_json)
     server_communication.game_train(SERVER_IP, token, 'test1.txt', 0)
-    game_state = server_communication.game_make_move_train(SERVER_IP, token, 'move', 0, 0)
+    game_state = server_communication.game_make_move_train(
+        SERVER_IP, token, 'move', 0, 0)
 
     while True:
         # TODO: Implement our AI here
         action, q, r = 'move', 0, 0
         print(action, q, r)
         try:
-            game_state = server_communication.game_make_move_train(SERVER_IP, token, action, q, r)
+            game_state = server_communication.game_make_move_train(
+                SERVER_IP, token, action, q, r)
         except:
             print("Timeout error")
             break
